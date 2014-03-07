@@ -8,11 +8,13 @@ module Zap
         end
 
         def start
-            RestClient::get(Addressable::URI.parse("#{@base}/ascan/action/scan/?zapapiformat=JSON&url=#{CGI.escape(@target)}").normalize.to_str)
+            url = Addressable::URI.parse "#{@base}/ascan/action/scan/"
+            url.query_values = {:zapapiformat=>"JSON",:url=>@target}
+            RestClient::get url.normalize.to_str
         end
 
         def status
-            RestClient::get("#{@base}/ascan/view/status/?zapapiformat=JSON")
+            RestClient::get "#{@base}/ascan/view/status/?zapapiformat=JSON"
         end
 
     end
