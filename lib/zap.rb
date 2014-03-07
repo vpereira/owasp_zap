@@ -38,7 +38,7 @@ module Zap
         def alerts
             Zap::Alert.new(:base=>@base,:target=>@target).view
         end
-        #
+        
         #attack
         def ascan
             Zap::Attack.new(:base=>@base,:target=>@target).start
