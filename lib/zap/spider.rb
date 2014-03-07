@@ -16,7 +16,7 @@ module Zap
          end
 
         def status
-            RestClient::get "#{@base}/spider/view/status/?zapapiformat=JSON")
+            RestClient::get "#{@base}/spider/view/status/?zapapiformat=JSON"
         end
     end
 end
