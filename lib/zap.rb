@@ -6,6 +6,7 @@ require 'cgi'
 require "./zap/version"
 require "./zap/spider"
 require "./zap/attack"
+require "./zap/alert"
 
 module Zap
     class ZapException < Exception;end
@@ -27,8 +28,7 @@ module Zap
         end
 
         def alerts
-            #http://localhost:8080/JSON/core/view/alerts/?zapapiformat=JSON&baseurl=http%3A%2F%2F192.168.1.113&start=&count=
-            RestClient.get(uri(:alerts))
+            Zap::Alert.new(:base=>@base,:target=>@target).view
         end
         #attack
         def ascan
