@@ -25,7 +25,7 @@ module Zap
             when :ascan
                 Zap::Attack.new(:base=>@base,:target=>@target).status
             when :spider
-                Zap::Spider.new(:base=>@base,:target=>@target).start
+                Zap::Spider.new(:base=>@base,:target=>@target).status
             else
                 {:status=>"unknown component"}.to_json
             end
