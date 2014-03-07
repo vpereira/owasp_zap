@@ -12,6 +12,7 @@ module Zap
     class ZapException < Exception;end
     class ZapV2
        attr_accessor :target,:base
+
        def initialize(params = {})
             #TODO
             # handle params
@@ -19,10 +20,17 @@ module Zap
             @target = params[:target]
         end
 
-        def index
-            RestClient.get(@base).body
-        end
+        def status_for(component)
+            case component
+            when :ascan
+                Zap::Attack.new(:base=>@base,:target=>@target).status
+            when :spider
+                Zap::Spider.new(:base=>@base,:target=>@target).start
+            else
+                {:status=>"unknown component"}.to_json
+            end
 
+        end
         def ok?(json_data)
             json_data.is_a?(Hash) and json_data[0] == "OK"
         end
@@ -30,6 +38,7 @@ module Zap
         def alerts
             Zap::Alert.new(:base=>@base,:target=>@target).view
         end
+        #
         #attack
         def ascan
             Zap::Attack.new(:base=>@base,:target=>@target).start
