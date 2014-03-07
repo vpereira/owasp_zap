@@ -9,12 +9,12 @@ module Zap
         end
 
         def start
-            #http://localhost:8080/JSON/spider/action/scan/?zapapiformat=JSON&url=http%3A%2F%2F192.168.1.113    
+            #http://localhost:8080/JSON/spider/action/scan/?zapapiformat=JSON&url=
             RestClient::get(Addressable::URI.parse("#{@base}/spider/action/scan/?zapapiformat=JSON&url=#{CGI.escape(@target)}").normalize.to_str)
         end
 
         def status
-            RestClient::get("http://localhost:8080/JSON/spider/view/status/?zapapiformat=JSON")
+            RestClient::get("#{@base}/spider/view/status/?zapapiformat=JSON")
         end
     end
 end

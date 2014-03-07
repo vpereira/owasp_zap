@@ -5,22 +5,17 @@ require 'cgi'
 
 require "./zap/version"
 require "./zap/spider"
+require "./zap/attack"
 
 module Zap
     class ZapException < Exception;end
     class ZapV2
+       attr_accessor :target,:base
        def initialize(params = {})
+            #TODO
+            # handle params
             @base = "http://127.0.0.1:8080/JSON"
             @target = params[:target]
-        end
-
-        def uri(action)
-            params = {
-                :alerts=>"baseurl",
-                :ascan=>"url",
-                :spider=>"url",
-            }
-            Addressable::URI.parse("#{@base}/spider/action/#{action}/?zapapiformat=JSON&#{params[action]}=#{CGI.escape(@target)}").normalize.to_str
         end
 
         def index
@@ -37,16 +32,11 @@ module Zap
         end
         #attack
         def ascan
-            #http://localhost:8080/JSON/ascan/action/scan/?zapapiformat=JSON&url=http%3A%2F%2F192.168.1.113&recurse=&inScopeOnly=
-            RestClient.get(uri(:ascan))
-        end
-
-        def shutdown
+            Zap::Attack.new(:base=>@base,:target=>@target).start
         end
 
         def spider
             Zap::Spider.new(:base=>@base,:target=>@target).start
         end
    end
-    #load all others requirements
 end
