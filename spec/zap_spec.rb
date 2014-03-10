@@ -26,5 +26,16 @@ describe ZapV2 do
     it "base shouldnt be nil" do
         @zap.base.wont_be :nil?
     end
+
+    it "base default should be http://127.0.0.1:8080/JSON" do
+        @zap.base == "http://127.0.0.1:8080/JSON"
+    end
+end
+
+describe "changing default params" do
+    it "should be able to set base" do
+        @zap = ZapV2.new(:target=>'http://127.0.0.1',:base=>'http://127.0.0.2:8383')
+        @zap.base == "http://127.0.0.2:8383"
+    end
 end
 

@@ -16,7 +16,7 @@ module Zap
        def initialize(params = {})
             #TODO
             # handle params
-            @base = "http://127.0.0.1:8080/JSON"
+            @base = params[:base] || "http://127.0.0.1:8080/JSON"
             @target = params[:target]
         end
 
