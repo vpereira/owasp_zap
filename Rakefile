@@ -6,3 +6,10 @@ Rake::TestTask.new do |t|
       t.test_files = FileList['spec/*_spec.rb']
       t.verbose = true
 end
+
+namespace :test do
+      desc "test coverage report"
+      task :coverage do
+        Rake::Task["test"].execute
+      end
+end
