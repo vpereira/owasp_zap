@@ -1,12 +1,12 @@
-# Zap
+# ruby API client for Zap proxy
 
-TODO: Write a gem description
+A ruby client to access the HTTP API from Zap Proxy (http://code.google.com/p/zaproxy)
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
-    gem 'zap'
+    gem 'ruby-zap'
 
 And then execute:
 
@@ -14,11 +14,12 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install zap
+    $ gem install ruby-zap
 
 ## Usage
 
-TODO: Write usage instructions here
+The main idea is to offer the infrastructure to access the Zap proxy via ruby.
+For now you are able to define a proxy address, start a scan/spider, get the report, shutdown the proxy and etc
 
 ## Contributing
 
