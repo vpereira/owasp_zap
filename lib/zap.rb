@@ -3,10 +3,10 @@ require 'rest_client'
 require 'addressable/uri'
 require 'cgi'
 
-require "./zap/version"
-require "./zap/spider"
-require "./zap/attack"
-require "./zap/alert"
+require_relative "zap/version"
+require_relative "zap/spider"
+require_relative "zap/attack"
+require_relative "zap/alert"
 
 module Zap
     class ZapException < Exception;end
@@ -46,6 +46,10 @@ module Zap
 
         def spider
             Zap::Spider.new(:base=>@base,:target=>@target).start
+        end
+
+        def shutdown
+            RestClient::get '#{@base}/json/core/action/shutdown/'
         end
    end
 end
