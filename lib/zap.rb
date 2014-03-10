@@ -48,8 +48,9 @@ module Zap
             Zap::Spider.new(:base=>@base,:target=>@target).start
         end
 
+        #shutdown zap
         def shutdown
-            RestClient::get '#{@base}/json/core/action/shutdown/'
+            RestClient::get "#{@base}/core/action/shutdown/"
         end
    end
 end
