@@ -50,10 +50,11 @@ module Zap
         end
 
         #TODO
-        #it is blocking, to shutdown you should start a new shell 
         #DOCUMENT the step necessary: install ZAP under $home/ZAP or should be passed to new as :zap parameter
         def start
-            system @zap_bin
+            fork do
+               exec @zap_bin 
+            end
         end
 
         #shutdown zap
