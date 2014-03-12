@@ -18,6 +18,7 @@ module Zap
             # handle params
             @base = params[:base] || "http://127.0.0.1:8080/JSON"
             @target = params[:target]
+            @zap_bin = params [:zap] || "#{ENV['HOME']}/ZAP/zap.sh"
         end
 
         def status_for(component)
@@ -46,6 +47,13 @@ module Zap
 
         def spider
             Zap::Spider.new(:base=>@base,:target=>@target).start
+        end
+
+        #TODO
+        #it is blocking, to shutdown you should start a new shell 
+        #DOCUMENT the step necessary: install ZAP under $home/ZAP or should be passed to new as :zap parameter
+        def start
+            system @zap_bin
         end
 
         #shutdown zap
