@@ -7,6 +7,7 @@ require_relative "zap/version"
 require_relative "zap/spider"
 require_relative "zap/attack"
 require_relative "zap/alert"
+require_relative "zap/auth"
 
 module Zap
     class ZapException < Exception;end
