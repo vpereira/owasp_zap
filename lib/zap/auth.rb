@@ -9,6 +9,22 @@ module Zap
             RestClient::get "#{@base}/auth/view/loginUrl/?zapapiformat=JSON&contextId=#{@ctx}"
         end
         
+        def login_data
+            RestClient::get "#{@base}/auth/view/loginData/?zapapiformat=JSON&contextId=#{@ctx}"
+        end
+
+        def loggedin_indicator
+            RestClient::get "#{@base}/auth/view/loggedInIndicator/?zapapiformat=JSON&contextId=#{@ctx}"
+        end
+
+        def logout_url
+            RestClient::get "#{@base}/auth/view/logoutUrl/?zapapiformat=JSON&contextId=#{@ctx}"
+        end
+
+        def logout_data
+            RestClient::get "#{@base}/auth/view/logoutData/?zapapiformat=JSON&contextId=#{@ctx}"
+        end
+
         # params:
         # args a hash with the following keys -> values
         # url: url including http:// 
