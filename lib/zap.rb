@@ -61,5 +61,11 @@ module Zap
         def shutdown
             RestClient::get "#{@base}/core/action/shutdown/"
         end
+
+        #xml report
+        #maybe it should be refactored to alert. 
+        def xml_report
+            RestClient::get "#{@base}/OTHER/core/other/xmlreport/"
+        end
    end
 end
