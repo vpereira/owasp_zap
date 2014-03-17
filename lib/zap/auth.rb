@@ -14,7 +14,7 @@ module Zap
             RestClient::get "#{@base}/auth/view/loginData/?zapapiformat=JSON&contextId=#{@ctx}"
         end
 
-        def loggedin_indicator
+        def logged_in_indicator
             RestClient::get "#{@base}/auth/view/loggedInIndicator/?zapapiformat=JSON&contextId=#{@ctx}"
         end
 
@@ -33,7 +33,10 @@ module Zap
         def logout
             RestClient "#{@base}/auth/action/logout/?zapapiformat=JSON&contextId=#{@ctx}"
         end
-
+    
+        def logged_out_indicator
+            RestClient "#{@base}/auth/view/loggedOutIndicator/?zapapiformat=JSON&contextId=#{@ctx}"
+        end
         # params:
         # args a hash with the following keys -> values
         # url: url including http:// 
@@ -41,6 +44,12 @@ module Zap
         # TODO: offer a way to encode it, giving a hash?
         def set_login_url(args)
             url = Addressable::URI.parse "#{@base}/auth/action/setLoginUrl/"
+            url.query_values = {:zapapiformat=>"JSON",:url=>args[:url],:postData=>args[:post_data],:contextId=>@ctx}
+            RestClient::get url.normalize.to_str
+        end
+
+        def set_logout_url(args)
+            url = Addressable::URI.parse "#{@base}/auth/action/setLogoutUrl/"
             url.query_values = {:zapapiformat=>"JSON",:url=>args[:url],:postData=>args[:post_data],:contextId=>@ctx}
             RestClient::get url.normalize.to_str
         end
