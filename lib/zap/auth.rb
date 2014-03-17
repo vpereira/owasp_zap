@@ -1,5 +1,6 @@
 module Zap
     class Auth
+        attr_accessor :ctx
         def initialize(params = {})
             @ctx = params[:context] || 1 #default context is the1
             @base = params[:base] || "http://127.0.0.1:8080/JSON"
@@ -23,6 +24,14 @@ module Zap
 
         def logout_data
             RestClient::get "#{@base}/auth/view/logoutData/?zapapiformat=JSON&contextId=#{@ctx}"
+        end
+
+        def login
+            RestClient::get "#{@base}/auth/action/login/?zapapiformat=JSON&contextId=#{@ctx}"
+        end
+
+        def logout
+            RestClient "#{@base}/auth/action/logout/?zapapiformat=JSON&contextId=#{@ctx}"
         end
 
         # params:
