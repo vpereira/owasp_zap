@@ -49,11 +49,9 @@ end
 describe "method shutdown" do
     before do
         @h = Zap::ZapV2.new :target=>"http://127.0.0.1"
-        stub_request(:get, "http://127.0.0.1:8080/JSON/core/action/shutdown/").with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate', 'User-Agent'=>'Ruby'}).to_return(:status => 200, :body => "{\"Result\":\"OK\"}" , :headers => {})
-
-
-
+        stub_request(:get, "http://127.0.0.1:8080/JSON/core/action/shutdown/").to_return(:status => 200, :body => "{\"Result\":\"OK\"}" , :headers => {})
     end
+
     it "should receive a json as answer" do
          @h.shutdown.wont_be :nil?
     end
