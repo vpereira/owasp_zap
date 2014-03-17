@@ -53,5 +53,17 @@ module Zap
             url.query_values = {:zapapiformat=>"JSON",:url=>args[:url],:postData=>args[:post_data],:contextId=>@ctx}
             RestClient::get url.normalize.to_str
         end
+
+        def set_logged_in_indicator(args)
+            url = Addressable::URI.parse "#{@base}/auth/action/setLoggedInIndicator/"
+            url.query_values = {:zapapiformat=>"JSON",:url=>args[:url],:postData=>args[:indicator],:contextId=>@ctx}
+            RestClient::get url.normalize.to_str
+        end
+
+        def set_logged_out_indicator(args)
+            url = Addressable::URI.parse "#{@base}/auth/action/setLoggedOutIndicator/"
+            url.query_values = {:zapapiformat=>"JSON",:url=>args[:url],:indicator=>args[:indicator],:contextId=>@ctx}
+            RestClient::get url.normalize.to_str
+        end
     end
 end
