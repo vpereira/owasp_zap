@@ -57,5 +57,9 @@ describe "method shutdown" do
     it "should receive a json as answer" do
          @h.shutdown.wont_be :nil?
     end
+    it "should request the shutdown url" do
+        @h.shutdown
+        assert_requested(:get,"http://127.0.0.1:8080/JSON/core/action/shutdown/")
+    end
 
 end
