@@ -3,7 +3,7 @@
 A ruby client to access the HTTP API from Zap Proxy (http://code.google.com/p/zaproxy)
 
 [![Build Status](https://travis-ci.org/vpereira/ruby-zap.png?branch=master)](https://travis-ci.org/vpereira/ruby-zap)
-
+[![Code Climate](https://codeclimate.com/github/vpereira/ruby-zap.png)](https://codeclimate.com/github/vpereira/ruby-zap)
 
 ## Installation
 
