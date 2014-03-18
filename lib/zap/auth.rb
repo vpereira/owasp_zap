@@ -7,27 +7,26 @@ module Zap
         end
 
         #
-        # define the methods from: http://127.0.0.1:8080/UI/auth/
+        # define dynamically the methods from: http://127.0.0.1:8080/UI/auth/
         #
         #
         [:login_url, :logout_url, :login_data, :logout_data, :logged_in_indicator, :logged_out_indicator].each do |method|
             define_method method do
-                method_str = method.to_s
-                method_str.extend Zap::StringExtension
-                method_str = method_str.camel_case
-                RestClient::get "#{@base}/auth/view/#{method_str}/?zapapiformat=JSON&contextId=#{@ctx}"
+                RestClient::get "#{@base}/auth/view/#{to_url(method)}/?zapapiformat=JSON&contextId=#{@ctx}"
             end
         end
-   
-        def login
-            RestClient::get "#{@base}/auth/action/login/?zapapiformat=JSON&contextId=#{@ctx}"
+
+        #
+        # define methods login, logout 
+        #
+        #
+        [:login,:logout].each do |method|
+            define_method method do
+               RestClient::get "#{@base}/auth/action/#{to_url(method)}/?zapapiformat=JSON&contextId=#{@ctx}"
+            end
         end
 
-        def logout
-            RestClient "#{@base}/auth/action/logout/?zapapiformat=JSON&contextId=#{@ctx}"
-        end
-    
-       # params:
+        # params:
         # args a hash with the following keys -> values
         # url: url including http:// 
         # post_data: an already encoded string like "email%3Dfoo%2540example.org%26passwd%3Dfoobar" 
@@ -54,6 +53,19 @@ module Zap
             url = Addressable::URI.parse "#{@base}/auth/action/setLoggedOutIndicator/"
             url.query_values = {:zapapiformat=>"JSON",:url=>args[:url],:indicator=>args[:indicator],:contextId=>@ctx}
             RestClient::get url.normalize.to_str
+        end
+
+        private
+        def to_url(str)
+            method_str = str.to_s
+            method_str.extend Zap::StringExtension # monkey patch just this instance
+            method_str.camel_case
+         end
+
+        def to_method(str)
+            method_str = str.to_s
+            method_str.extend Zap::StringExtension # monkey patch just this instance
+            method_str.snake_case
         end
     end
 end

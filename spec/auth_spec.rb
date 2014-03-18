@@ -33,6 +33,20 @@ describe "Auth view methods" do
             assert_requested :get,"http://127.0.0.1:8080/JSON/auth/view/#{m_str}/?zapapiformat=JSON&contextId=1"
          end
      end
+end
 
-
+describe "Login/Logout" do
+    before do 
+        @h = Zap::Auth.new
+            stub_request(:get, "http://127.0.0.1:8080/JSON/auth/action/logout/?zapapiformat=JSON&contextId=1").to_return(:status => 200, :body => "{\"Result\":\"OK\"}" , :headers => {})
+            stub_request(:get, "http://127.0.0.1:8080/JSON/auth/action/login/?zapapiformat=JSON&contextId=1").to_return(:status => 200, :body => "{\"Result\":\"OK\"}" , :headers => {})
+    end
+    it "should call the login url" do
+        @h.login
+        assert_requested :get,"http://127.0.0.1:8080/JSON/auth/action/login/?zapapiformat=JSON&contextId=1"
+    end
+    it "should call the logout url" do
+        @h.logout
+        assert_requested :get,"http://127.0.0.1:8080/JSON/auth/action/logout/?zapapiformat=JSON&contextId=1"
+    end
 end
