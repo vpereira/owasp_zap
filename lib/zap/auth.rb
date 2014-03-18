@@ -1,31 +1,46 @@
 module Zap
     class Auth
-        attr_accessor :ctx
+        attr_accessor :ctx,:base
         def initialize(params = {})
             @ctx = params[:context] || 1 #default context is the1
             @base = params[:base] || "http://127.0.0.1:8080/JSON"
         end
 
-        def login_url
-            RestClient::get "#{@base}/auth/view/loginUrl/?zapapiformat=JSON&contextId=#{@ctx}"
+        [:login_url, :logout_url, :login_data, :logout_data, :logged_in_indicator, :logged_out_indicator].each do |method|
+            define_method method do
+                method_str = method.to_s
+                method_str.extend Zap::StringExtension
+                method_str = method_str.camel_case
+                RestClient::get "#{@base}/auth/view/#{method_str}/?zapapiformat=JSON&contextId=#{@ctx}"
+            end
         end
+
+        # The code above define the following methods:
+        #
+        #def login_url
+        #    RestClient::get "#{@base}/auth/view/loginUrl/?zapapiformat=JSON&contextId=#{@ctx}"
+        #end
         
-        def login_data
-            RestClient::get "#{@base}/auth/view/loginData/?zapapiformat=JSON&contextId=#{@ctx}"
-        end
+        #def login_data
+        #    RestClient::get "#{@base}/auth/view/loginData/?zapapiformat=JSON&contextId=#{@ctx}"
+        #end
 
-        def logged_in_indicator
-            RestClient::get "#{@base}/auth/view/loggedInIndicator/?zapapiformat=JSON&contextId=#{@ctx}"
-        end
+        #def logged_in_indicator
+        #    RestClient::get "#{@base}/auth/view/loggedInIndicator/?zapapiformat=JSON&contextId=#{@ctx}"
+        #end
 
-        def logout_url
-            RestClient::get "#{@base}/auth/view/logoutUrl/?zapapiformat=JSON&contextId=#{@ctx}"
-        end
+        #def logout_url
+        #    RestClient::get "#{@base}/auth/view/logoutUrl/?zapapiformat=JSON&contextId=#{@ctx}"
+        #end
 
-        def logout_data
-            RestClient::get "#{@base}/auth/view/logoutData/?zapapiformat=JSON&contextId=#{@ctx}"
-        end
+        #def logout_data
+        #    RestClient::get "#{@base}/auth/view/logoutData/?zapapiformat=JSON&contextId=#{@ctx}"
+        #end
 
+        #def logged_out_indicator
+        #    RestClient::get "#{@base}/auth/view/loggedOutIndicator/?zapapiformat=JSON&contextId=#{@ctx}"
+        #end
+   
         def login
             RestClient::get "#{@base}/auth/action/login/?zapapiformat=JSON&contextId=#{@ctx}"
         end
@@ -34,10 +49,7 @@ module Zap
             RestClient "#{@base}/auth/action/logout/?zapapiformat=JSON&contextId=#{@ctx}"
         end
     
-        def logged_out_indicator
-            RestClient "#{@base}/auth/view/loggedOutIndicator/?zapapiformat=JSON&contextId=#{@ctx}"
-        end
-        # params:
+       # params:
         # args a hash with the following keys -> values
         # url: url including http:// 
         # post_data: an already encoded string like "email%3Dfoo%2540example.org%26passwd%3Dfoobar" 

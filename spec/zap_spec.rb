@@ -57,7 +57,33 @@ describe "method shutdown" do
     end
     it "should request the shutdown url" do
         @h.shutdown
-        assert_requested(:get,"http://127.0.0.1:8080/JSON/core/action/shutdown/")
+        assert_requested :get,"http://127.0.0.1:8080/JSON/core/action/shutdown/"
     end
 
+end
+
+describe "StringExtension" do
+    it "should not respond_to camel_case and snake_case" do
+        @str = "" 
+        [:camel_case,:snake_case].each do |m|
+            !@str.respond_to?m
+        end
+    end
+     it "should respond_to camel_case and snake_case" do
+        @str = "" 
+        @str.extend Zap::StringExtension
+        [:camel_case,:snake_case].each do |m|
+            @str.respond_to?m
+        end
+    end
+    it "should answer to camel_case" do
+        @str = "foo_bar"
+        @str.extend Zap::StringExtension
+        assert_equal @str.camel_case,"fooBar"
+    end
+    it "should answer to snake_case" do
+        @str = "fooBar"
+        @str.extend Zap::StringExtension
+        assert_equal @str.snake_case,"foo_bar" 
+    end
 end
