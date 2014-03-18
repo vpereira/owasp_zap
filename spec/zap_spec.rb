@@ -20,29 +20,29 @@ describe ZapV2 do
     end
 
     it "should have a base" do
-        @zap.respond_to? :base
+        assert_respond_to @zap,:base
     end
 
     it "should have method start" do
-        @zap.respond_to? :start
+        assert_respond_to @zap,:start
     end
 
     it "should have a method shutdown" do
-        @zap.respond_to? :shutdown
+        assert_respond_to @zap,:shutdown
     end
     it "base shouldnt be nil" do
         @zap.base.wont_be :nil?
     end
 
     it "base default should be http://127.0.0.1:8080/JSON" do
-        @zap.base == "http://127.0.0.1:8080/JSON"
+        assert_equal @zap.base, "http://127.0.0.1:8080/JSON"
     end
 end
 
 describe "changing default params" do
     it "should be able to set base" do
         @zap = ZapV2.new(:target=>'http://127.0.0.1',:base=>'http://127.0.0.2:8383')
-        @zap.base == "http://127.0.0.2:8383"
+        assert_equal @zap.base, "http://127.0.0.2:8383"
     end
 end
 
@@ -66,14 +66,14 @@ describe "StringExtension" do
     it "should not respond_to camel_case and snake_case" do
         @str = "" 
         [:camel_case,:snake_case].each do |m|
-            !@str.respond_to?m
+            refute_respond_to(@str,m)
         end
     end
      it "should respond_to camel_case and snake_case" do
         @str = "" 
         @str.extend Zap::StringExtension
         [:camel_case,:snake_case].each do |m|
-            @str.respond_to?m
+            assert_respond_to @str,m
         end
     end
     it "should answer to camel_case" do
