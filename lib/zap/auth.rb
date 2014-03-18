@@ -6,6 +6,10 @@ module Zap
             @base = params[:base] || "http://127.0.0.1:8080/JSON"
         end
 
+        #
+        # define the methods from: http://127.0.0.1:8080/UI/auth/
+        #
+        #
         [:login_url, :logout_url, :login_data, :logout_data, :logged_in_indicator, :logged_out_indicator].each do |method|
             define_method method do
                 method_str = method.to_s
@@ -14,32 +18,6 @@ module Zap
                 RestClient::get "#{@base}/auth/view/#{method_str}/?zapapiformat=JSON&contextId=#{@ctx}"
             end
         end
-
-        # The code above define the following methods:
-        #
-        #def login_url
-        #    RestClient::get "#{@base}/auth/view/loginUrl/?zapapiformat=JSON&contextId=#{@ctx}"
-        #end
-        
-        #def login_data
-        #    RestClient::get "#{@base}/auth/view/loginData/?zapapiformat=JSON&contextId=#{@ctx}"
-        #end
-
-        #def logged_in_indicator
-        #    RestClient::get "#{@base}/auth/view/loggedInIndicator/?zapapiformat=JSON&contextId=#{@ctx}"
-        #end
-
-        #def logout_url
-        #    RestClient::get "#{@base}/auth/view/logoutUrl/?zapapiformat=JSON&contextId=#{@ctx}"
-        #end
-
-        #def logout_data
-        #    RestClient::get "#{@base}/auth/view/logoutData/?zapapiformat=JSON&contextId=#{@ctx}"
-        #end
-
-        #def logged_out_indicator
-        #    RestClient::get "#{@base}/auth/view/loggedOutIndicator/?zapapiformat=JSON&contextId=#{@ctx}"
-        #end
    
         def login
             RestClient::get "#{@base}/auth/action/login/?zapapiformat=JSON&contextId=#{@ctx}"
