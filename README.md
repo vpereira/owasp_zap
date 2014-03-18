@@ -2,6 +2,9 @@
 
 A ruby client to access the HTTP API from Zap Proxy (http://code.google.com/p/zaproxy)
 
+[![Build Status](https://travis-ci.org/vpereira/ruby-zap.png?branch=master)](https://travis-ci.org/vpereira/ruby-zap)
+
+
 ## Installation
 
 Add this line to your application's Gemfile:
