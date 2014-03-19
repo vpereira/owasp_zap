@@ -55,6 +55,14 @@ describe ZapV2 do
         assert_equal @zap.ascan.class, Zap::Attack
     end
 
+    it "should respond_to alerts" do
+        assert_respond_to @zap,:alerts
+    end
+
+    it "should call alerts and get a alert object" do
+        assert_equal @zap.alerts.class,Zap::Alert
+    end
+
     it "base shouldnt be nil" do
         @zap.base.wont_be :nil?
     end
