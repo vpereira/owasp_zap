@@ -54,16 +54,16 @@ module Zap
         end
 
         def alerts
-            Zap::Alert.new(:base=>@base,:target=>@target).view
+            Zap::Alert.new(:base=>@base,:target=>@target)
         end
         
         #attack
         def ascan
-            Zap::Attack.new(:base=>@base,:target=>@target).start
+            Zap::Attack.new(:base=>@base,:target=>@target)
         end
 
         def spider
-            Zap::Spider.new(:base=>@base,:target=>@target).start
+            Zap::Spider.new(:base=>@base,:target=>@target)
         end
 
         #TODO
