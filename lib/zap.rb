@@ -66,6 +66,10 @@ module Zap
             Zap::Spider.new(:base=>@base,:target=>@target)
         end
 
+        def auth
+            Zap::Auth.new(:base=>@base) 
+        end
+
         #TODO
         #DOCUMENT the step necessary: install ZAP under $home/ZAP or should be passed to new as :zap parameter
         def start

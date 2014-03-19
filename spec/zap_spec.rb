@@ -30,6 +30,31 @@ describe ZapV2 do
     it "should have a method shutdown" do
         assert_respond_to @zap,:shutdown
     end
+
+    it "should respond_to to spider" do
+        assert_respond_to @zap,:spider
+    end
+
+    it "should call spider and get a spider object" do
+        assert_equal @zap.spider.class,Zap::Spider
+    end
+
+    it "should respond_to auth" do
+        assert_respond_to @zap,:auth
+    end
+
+    it "should call auth and get an auth object" do
+        assert_equal @zap.auth.class, Zap::Auth
+    end
+
+    it "should respond_to ascan" do 
+        assert_respond_to @zap,:ascan
+    end
+
+    it "should call ascan and get an attack object" do
+        assert_equal @zap.ascan.class, Zap::Attack
+    end
+
     it "base shouldnt be nil" do
         @zap.base.wont_be :nil?
     end
