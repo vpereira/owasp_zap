@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = Zap::VERSION
   spec.authors       = ["Victor Pereira"]
   spec.email         = ["vpereira@suse.de"]
-  spec.description   = %q{TODO: Write a gem description}
-  spec.summary       = %q{TODO: Write a gem summary}
+  spec.description   = %q{TODO: ruby wrapper for zed attack proxy API}
+  spec.summary       = %q{TODO: ruby wrapper to access the HTTP API exposed by zed attack proxy (ZAP)}
   spec.homepage      = ""
   spec.license       = "MIT"
 
