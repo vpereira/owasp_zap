@@ -9,7 +9,7 @@ A ruby client to access the HTTP API from Zap Proxy (http://code.google.com/p/za
 
 Add this line to your application's Gemfile:
 
-    gem 'ruby-zap'
+    gem 'zap'
 
 And then execute:
 
@@ -17,7 +17,7 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install ruby-zap
+    $ gem install zap
 
 ## Usage
 
