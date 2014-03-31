@@ -32,30 +32,31 @@ module OwaspZap
         # post_data: an already encoded string like "email%3Dfoo%2540example.org%26passwd%3Dfoobar" 
         # TODO: offer a way to encode it, giving a hash?
         def set_login_url(args)
-            url = Addressable::URI.parse "#{@base}/auth/action/setLoginUrl/"
-            url.query_values = {:zapapiformat=>"JSON",:url=>args[:url],:postData=>args[:post_data],:contextId=>@ctx}
-            RestClient::get url.normalize.to_str
+            set_query "#{@base}/auth/action/setLoginUrl/",:postData=>args[:post_data]
         end
 
         def set_logout_url(args)
-            url = Addressable::URI.parse "#{@base}/auth/action/setLogoutUrl/"
-            url.query_values = {:zapapiformat=>"JSON",:url=>args[:url],:postData=>args[:post_data],:contextId=>@ctx}
-            RestClient::get url.normalize.to_str
+            set_query "#{@base}/auth/action/setLogoutUrl/",:postData=>args[:post_data]
         end
 
         def set_logged_in_indicator(args)
-            url = Addressable::URI.parse "#{@base}/auth/action/setLoggedInIndicator/"
-            url.query_values = {:zapapiformat=>"JSON",:url=>args[:url],:postData=>args[:indicator],:contextId=>@ctx}
-            RestClient::get url.normalize.to_str
+            set_query "#{@base}/auth/action/setLoggedInIndicator/",:postData=>args[:indicator]
         end
 
         def set_logged_out_indicator(args)
-            url = Addressable::URI.parse "#{@base}/auth/action/setLoggedOutIndicator/"
-            url.query_values = {:zapapiformat=>"JSON",:url=>args[:url],:indicator=>args[:indicator],:contextId=>@ctx}
-            RestClient::get url.normalize.to_str
+            set_query "#{@base}/auth/action/setLoggedOutIndicator/", :indicator=>args[:indicator]
         end
 
         private
+
+        # addr a string like #{@base}/auth/foo/bar
+        # params a hash with custom params that should be added to the query_values
+        def set_query(addr, params)
+            default_params = {:zapapiformat=>"JSON",:url=>args[:url],:contextId=>@ctx}
+            url Addressable::URI.parse addr
+            url.query_values = default_params.merge(params)
+            RestClient::get url.normalize.to_str
+        end
         def to_url(str)
             method_str = str.to_s
             method_str.extend OwaspZap::StringExtension # monkey patch just this instance
