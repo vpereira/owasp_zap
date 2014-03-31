@@ -1,6 +1,12 @@
 # OwaspZap
 
-TODO: Write a gem description
+# ruby API client for Zap proxy
+
+A ruby client to access the HTTP API from Zap Proxy (http://code.google.com/p/zaproxy)
+
+[![Build Status](https://travis-ci.org/vpereira/owasp_zap.png?branch=master)](https://travis-ci.org/vpereira/owasp_zap)
+[![Code Climate](https://codeclimate.com/github/vpereira/owasp_zap.png)](https://codeclimate.com/github/vpereira/owasp_zap)
+
 
 ## Installation
 
