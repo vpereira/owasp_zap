@@ -39,6 +39,15 @@ module Zap
             json_data.is_a?(Hash) and json_data[0] == "OK"
         end
 
+        def running?
+            begin
+                response = RestClient::get "#{@base}"
+            rescue Errno::ECONNREFUSED
+                return false
+            end
+            response.code == 200
+        end
+
         def alerts
             Zap::Alert.new(:base=>@base,:target=>@target)
         end
