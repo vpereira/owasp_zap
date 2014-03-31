@@ -1,4 +1,4 @@
-module Zap
+module OwaspZap
     class Attack
         def initialize(params = {})
             #TODO

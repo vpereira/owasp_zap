@@ -1,10 +1,10 @@
 require 'helper'
 
-include Zap
+include OwaspZap
 
-describe ZapV2 do
+describe Zap do
     before do
-        @zap = ZapV2.new(:target=>'http://127.0.0.1')
+        @zap = Zap.new(:target=>'http://127.0.0.1')
     end
 
     it "shouldnt be nil" do
@@ -74,14 +74,14 @@ end
 
 describe "changing default params" do
     it "should be able to set base" do
-        @zap = ZapV2.new(:target=>'http://127.0.0.1',:base=>'http://127.0.0.2:8383')
+        @zap = Zap.new(:target=>'http://127.0.0.1',:base=>'http://127.0.0.2:8383')
         assert_equal @zap.base, "http://127.0.0.2:8383"
     end
 end
 
 describe "method shutdown" do
     before do
-        @h = Zap::ZapV2.new :target=>"http://127.0.0.1"
+        @h = Zap::Zap.new :target=>"http://127.0.0.1"
         stub_request(:get, "http://127.0.0.1:8080/JSON/core/action/shutdown/").to_return(:status => 200, :body => "{\"Result\":\"OK\"}" , :headers => {})
     end
 

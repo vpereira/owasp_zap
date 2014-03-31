@@ -1,4 +1,4 @@
-module Zap
+module OwaspZap
     class Spider
 
         def initialize(params = {})

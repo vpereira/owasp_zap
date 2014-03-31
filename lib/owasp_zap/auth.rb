@@ -1,4 +1,4 @@
-module Zap
+module OwaspZap
     class Auth
         attr_accessor :ctx,:base
         def initialize(params = {})
@@ -58,14 +58,15 @@ module Zap
         private
         def to_url(str)
             method_str = str.to_s
-            method_str.extend Zap::StringExtension # monkey patch just this instance
+            method_str.extend OwaspZap::StringExtension # monkey patch just this instance
             method_str.camel_case
          end
 
         def to_method(str)
             method_str = str.to_s
-            method_str.extend Zap::StringExtension # monkey patch just this instance
+            method_str.extend OwaspZap::StringExtension # monkey patch just this instance
             method_str.snake_case
         end
     end
 end
+

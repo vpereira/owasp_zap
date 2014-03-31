@@ -1,15 +1,12 @@
-# ruby API client for Zap proxy
+# OwaspZap
 
-A ruby client to access the HTTP API from Zap Proxy (http://code.google.com/p/zaproxy)
-
-[![Build Status](https://travis-ci.org/vpereira/ruby-zap.png?branch=master)](https://travis-ci.org/vpereira/ruby-zap)
-[![Code Climate](https://codeclimate.com/github/vpereira/ruby-zap.png)](https://codeclimate.com/github/vpereira/ruby-zap)
+TODO: Write a gem description
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
-    gem 'zap'
+    gem 'owasp_zap'
 
 And then execute:
 
@@ -17,12 +14,11 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install zap
+    $ gem install owasp_zap
 
 ## Usage
 
-The main idea is to offer the infrastructure to access the Zap proxy via ruby.
-For now you are able to define a proxy address, start a scan/spider, get the report, shutdown the proxy and etc
+TODO: Write usage instructions here
 
 ## Contributing
 

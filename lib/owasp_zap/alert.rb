@@ -1,4 +1,4 @@
-module Zap
+module OwaspZap
     class Alert
         def initialize(params = {})
             #handle params

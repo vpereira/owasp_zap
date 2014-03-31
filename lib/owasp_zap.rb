@@ -3,17 +3,17 @@ require "rest_client"
 require "addressable/uri"
 require "cgi"
 
-require_relative "zap/version"
-require_relative "zap/string_extension"
-require_relative "zap/spider"
-require_relative "zap/attack"
-require_relative "zap/alert"
-require_relative "zap/auth"
+require_relative "owasp_zap/version"
+require_relative "owasp_zap/string_extension"
+require_relative "owasp_zap/spider"
+require_relative "owasp_zap/attack"
+require_relative "owasp_zap/alert"
+require_relative "owasp_zap/auth"
 
-module Zap
+module OwaspZap
     class ZapException < Exception;end
 
-    class ZapV2
+    class Zap
        attr_accessor :target,:base
 
        def initialize(params = {})

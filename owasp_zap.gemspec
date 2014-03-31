@@ -1,15 +1,15 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'zap/version'
+require 'owasp_zap/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "zap"
-  spec.version       = Zap::VERSION
+  spec.name          = "owasp_zap"
+  spec.version       = OwaspZap::VERSION
   spec.authors       = ["Victor Pereira"]
   spec.email         = ["vpereira@suse.de"]
-  spec.description   = %q{ruby wrapper for zed attack proxy API}
-  spec.summary       = %q{ruby wrapper to access the HTTP API exposed by zed attack proxy (ZAP)}
+  spec.description   = %q{ruby wrapper for ZAP}
+  spec.summary       = %q{ruby wrapper for the zed application proxy}
   spec.homepage      = ""
   spec.license       = "MIT"
 
@@ -26,3 +26,4 @@ Gem::Specification.new do |spec|
   spec.add_dependency "rest-client"
   spec.add_dependency "addressable"
 end
+

@@ -1,4 +1,4 @@
-module Zap
+module OwaspZap
     # extending String instance
     module StringExtension
         # from camel_case to snake_case: ie: fooBar to foo_bar
