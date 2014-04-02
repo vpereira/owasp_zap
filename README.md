@@ -1,9 +1,9 @@
 # OwaspZap
 
 
-## A ruby client to access the HTTP API from Zap Proxy (http://code.google.com/p/zaproxy)
+A ruby client to access the HTTP API from Zap Proxy (http://code.google.com/p/zaproxy)
 
-## if you need a rpm, check it here: https://build.opensuse.org/package/show/home:vpereirabr/owasp-zap
+if you need a rpm, check it here: https://build.opensuse.org/package/show/home:vpereirabr/owasp-zap
 
 [![Build Status](https://travis-ci.org/vpereira/owasp_zap.png?branch=master)](https://travis-ci.org/vpereira/owasp_zap)
 [![Code Climate](https://codeclimate.com/github/vpereira/owasp_zap.png)](https://codeclimate.com/github/vpereira/owasp_zap)
