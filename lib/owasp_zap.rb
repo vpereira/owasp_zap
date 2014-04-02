@@ -67,9 +67,14 @@ module OwaspZap
 
         #TODO
         #DOCUMENT the step necessary: install ZAP under $home/ZAP or should be passed to new as :zap parameter
-        def start
+        def start(params = {})
+            cmd_line = if params.key? :daemon
+                "#{@zap_bin} -daemon"
+            else
+                @zap_bin
+            end
             fork do
-               exec @zap_bin 
+               exec cmd_line
             end
         end
 
