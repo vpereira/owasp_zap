@@ -14,4 +14,10 @@ namespace :test do
       end
 end
 
+desc 'Increase version of a gem'
+task :bump do
+      sh 'gem bump --no-commit'
+end
+
+
 task :default=> :test
