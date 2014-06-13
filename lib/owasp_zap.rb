@@ -6,6 +6,7 @@ require "cgi"
 require_relative "owasp_zap/version"
 require_relative "owasp_zap/string_extension"
 require_relative "owasp_zap/spider"
+require_relative "owasp_zap/scan"
 require_relative "owasp_zap/attack"
 require_relative "owasp_zap/alert"
 require_relative "owasp_zap/auth"
@@ -30,6 +31,8 @@ module OwaspZap
                 Zap::Attack.new(:base=>@base,:target=>@target).status
             when :spider
                 Zap::Spider.new(:base=>@base,:target=>@target).status
+            when :scan
+                Zap::Scan.new(:base=>@base,:target=>@target).status
             else
                 {:status=>"unknown component"}.to_json
             end

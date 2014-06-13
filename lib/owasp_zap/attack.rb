@@ -14,7 +14,7 @@ module OwaspZap
         end
 
         def status
-            RestClient::get "#{@base}/ascan/view/status/?zapapiformat=JSON"
+            JSON.parse RestClient::get("#{@base}/ascan/view/status/?zapapiformat=JSON")
         end
 
     end
