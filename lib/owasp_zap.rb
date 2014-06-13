@@ -4,6 +4,7 @@ require "addressable/uri"
 require "cgi"
 
 require_relative "owasp_zap/version"
+require_relative "owasp_zap/error"
 require_relative "owasp_zap/string_extension"
 require_relative "owasp_zap/spider"
 require_relative "owasp_zap/attack"
