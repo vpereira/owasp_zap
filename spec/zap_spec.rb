@@ -126,11 +126,6 @@ describe "status_for" do
         @h = Zap::Zap.new :target=>"http://127.0.0.1"
         stub_request(:get, "http://127.0.0.1:8080/JSON/spider/view/status/?zapapiformat=JSON").to_return(:status => 200, :body => {:status=>"100"}.to_json, :headers => {})
         stub_request(:get, "http://127.0.0.1:8080/JSON/ascan/view/status/?zapapiformat=JSON").to_return(:status => 200, :body => {:status=>"100"}.to_json, :headers => {})
-        stub_request(:get, "http://127.0.0.1:8080/JSON/scan/view/status/?zapapiformat=JSON").to_return(:status => 200, :body => {:status=>"100"}.to_json, :headers => {})
-    end
-
-    it "should create a ascan" do
-        @h.status_for(:scan).wont_be :nil?
     end
 
     it "should create a ascan" do
