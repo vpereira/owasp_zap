@@ -8,31 +8,32 @@ describe Zap do
     end
 
     it "shouldnt be nil" do
-        @zap.wont_be :nil?
+        @zap.wont_be_nil
     end
 
     it "should have a target" do
-        @zap.respond_to? :target
+        @zap.must_respond_to :target
     end
 
     it "target shouldnt be nil" do
-        @zap.target.wont_be :nil?
+        @zap.target.wont_be_nil
     end
 
     it "should have a base" do
-        assert_respond_to @zap,:base
+        @zap.must_respond_to :base
+        #assert_respond_to @zap,:base
     end
 
     it "should have method start" do
-        assert_respond_to @zap,:start
+        @zap.must_respond_to :start
     end
 
     it "should have a method shutdown" do
-        assert_respond_to @zap,:shutdown
+        @zap.must_respond_to :shutdown
     end
 
     it "should respond_to to spider" do
-        assert_respond_to @zap,:spider
+        @zap.must_respond_to :spider
     end
 
     it "should call spider and get a spider object" do
@@ -40,7 +41,7 @@ describe Zap do
     end
 
     it "should respond_to auth" do
-        assert_respond_to @zap,:auth
+        @zap.must_respond_to :auth
     end
 
     it "should call auth and get an auth object" do
@@ -48,7 +49,7 @@ describe Zap do
     end
 
     it "should respond_to ascan" do 
-        assert_respond_to @zap,:ascan
+        @zap.must_respond_to :ascan
     end
 
     it "should call ascan and get an attack object" do
@@ -56,7 +57,7 @@ describe Zap do
     end
 
     it "should respond_to alerts" do
-        assert_respond_to @zap,:alerts
+        @zap.must_respond_to :alerts
     end
 
     it "should call alerts and get a alert object" do
@@ -86,7 +87,7 @@ describe "method shutdown" do
     end
 
     it "should receive a json as answer" do
-         @h.shutdown.wont_be :nil?
+         @h.shutdown.wont_be_nil
     end
     it "should request the shutdown url" do
         @h.shutdown
@@ -99,14 +100,14 @@ describe "StringExtension" do
     it "should not respond_to camel_case and snake_case" do
         @str = "" 
         [:camel_case,:snake_case].each do |m|
-            refute_respond_to(@str,m)
+            @str.wont_respond_to m
         end
     end
      it "should respond_to camel_case and snake_case" do
         @str = "" 
         @str.extend Zap::StringExtension
         [:camel_case,:snake_case].each do |m|
-            assert_respond_to @str,m
+            @str.must_respond_to m
         end
     end
     it "should answer to camel_case" do
@@ -129,12 +130,12 @@ describe "status_for" do
     end
 
     it "should create a ascan" do
-        @h.status_for(:ascan).wont_be :nil?
+        @h.status_for(:ascan).wont_be_nil
     end
     it "should create a spider" do
-        @h.status_for(:spider).wont_be :nil?
+        @h.status_for(:spider).wont_be_nil
     end
     it "should return an unknown" do
-        @h.status_for(:foo).wont_be :nil?
+        @h.status_for(:foo).wont_be_nil
     end
 end 

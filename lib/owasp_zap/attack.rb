@@ -1,8 +1,8 @@
 module OwaspZap
     class Attack
         def initialize(params = {})
-            #TODO
-            #handle it
+            # TODO
+            # handle it
             @base = params[:base]
             @target = params[:target]
         end
@@ -14,7 +14,16 @@ module OwaspZap
         end
 
         def status
-            JSON.parse RestClient::get("#{@base}/ascan/view/status/?zapapiformat=JSON")
+            ret = JSON.parse(RestClient::get("#{@base}/ascan/view/status/?zapapiformat=JSON"))
+            if ret.has_key? "status"
+                ret["status"]
+            else
+                100 # it means no running
+            end
+        end
+
+        def running?
+            self.status != 100
         end
 
     end
