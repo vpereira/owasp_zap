@@ -20,8 +20,16 @@ module OwaspZap
         end
 
         def status
-            RestClient::get "#{@base}/spider/view/status/?zapapiformat=JSON"
-        end
+            ret = JSON.parse(RestClient::get("#{@base}/spider/view/status/?zapapiformat=JSON"))
+            if ret.has_key? "status"
+                ret["status"]
+            else
+                100 # it means no running
+            end
+       end
 
+       def running?
+            self.status != 100
+       end
     end
 end
