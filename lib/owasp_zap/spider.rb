@@ -10,17 +10,17 @@ module OwaspZap
 
         def start
             #http://localhost:8080/JSON/spider/action/scan/?zapapiformat=JSON&url=
-            url = Addressable::URI.parse "#{@base}/spider/action/scan/"
+            url = Addressable::URI.parse "#{@base}/JSON/spider/action/scan/"
             url.query_values = {:zapapiformat=>"JSON",:url=>@target}
             RestClient::get url.normalize.to_str
         end
 
         def stop
-            RestClient::get "#{@base}/spider/action/stop/?zapapiformat=JSON"
+            RestClient::get "#{@base}/JSON/spider/action/stop/?zapapiformat=JSON"
         end
 
         def status
-            ret = JSON.parse(RestClient::get("#{@base}/spider/view/status/?zapapiformat=JSON"))
+            ret = JSON.parse(RestClient::get("#{@base}/JSON/spider/view/status/?zapapiformat=JSON"))
             if ret.has_key? "status"
                 ret["status"].to_i
             else

@@ -8,13 +8,13 @@ module OwaspZap
         end
 
         def start
-            url = Addressable::URI.parse "#{@base}/ascan/action/scan/"
+            url = Addressable::URI.parse "#{@base}/JSON/ascan/action/scan/"
             url.query_values = {:zapapiformat=>"JSON",:url=>@target}
             RestClient::get url.normalize.to_str
         end
 
         def status
-            ret = JSON.parse(RestClient::get("#{@base}/ascan/view/status/?zapapiformat=JSON"))
+            ret = JSON.parse(RestClient::get("#{@base}/JSON/ascan/view/status/?zapapiformat=JSON"))
             if ret.has_key? "status"
                 ret["status"].to_i
             else

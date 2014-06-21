@@ -68,8 +68,8 @@ describe Zap do
         @zap.base.wont_be :nil?
     end
 
-    it "base default should be http://127.0.0.1:8080/JSON" do
-        assert_equal @zap.base, "http://127.0.0.1:8080/JSON"
+    it "base default should be http://127.0.0.1:8080" do
+        assert_equal @zap.base, "http://127.0.0.1:8080"
     end
 end
 

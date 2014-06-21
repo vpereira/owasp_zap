@@ -20,7 +20,7 @@ module OwaspZap
        def initialize(params = {})
             #TODO
             # handle params
-            @base = params[:base] || "http://127.0.0.1:8080/JSON"
+            @base = params[:base] || "http://127.0.0.1:8080"
             @target = params[:target]
             @zap_bin = params [:zap] || "#{ENV['HOME']}/ZAP/zap.sh"
         end
@@ -83,7 +83,7 @@ module OwaspZap
 
         #shutdown zap
         def shutdown
-            RestClient::get "#{@base}/core/action/shutdown/"
+            RestClient::get "#{@base}/JSON/core/action/shutdown/"
         end
 
         #xml report

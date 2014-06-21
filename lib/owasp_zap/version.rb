@@ -1,3 +1,3 @@
 module OwaspZap
-  VERSION = "0.0.84"
+  VERSION = "0.0.9"
 end
