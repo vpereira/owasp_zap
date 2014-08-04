@@ -2,6 +2,7 @@ require "json"
 require "rest_client"
 require "addressable/uri"
 require "cgi"
+require "logger"
 
 require_relative "owasp_zap/version"
 require_relative "owasp_zap/error"
@@ -15,7 +16,7 @@ module OwaspZap
     class ZapException < Exception;end
 
     class Zap
-       attr_accessor :target,:base
+       attr_accessor :target,:base, :zap_bin
 
        def initialize(params = {})
             #TODO
@@ -23,6 +24,7 @@ module OwaspZap
             @base = params[:base] || "http://127.0.0.1:8080"
             @target = params[:target]
             @zap_bin = params [:zap] || "#{ENV['HOME']}/ZAP/zap.sh"
+            @output = params[:output] || $stdout #default we log everything to the stdout
         end
 
         def status_for(component)
@@ -68,8 +70,8 @@ module OwaspZap
             Zap::Auth.new(:base=>@base) 
         end
 
-        #TODO
-        #DOCUMENT the step necessary: install ZAP under $home/ZAP or should be passed to new as :zap parameter
+        # TODO
+        # DOCUMENT the step necessary: install ZAP under $home/ZAP or should be passed to new as :zap parameter
         def start(params = {})
             cmd_line = if params.key? :daemon
                 "#{@zap_bin} -daemon"
@@ -77,6 +79,12 @@ module OwaspZap
                 @zap_bin
             end
             fork do
+               # if you passed :output=>"file.txt" to the constructor, then it will send the forked process output
+               # to this file (that means, ZAP stdout)
+               unless @output == $stdout
+                STDOUT.reopen(File.open(@output, 'w+'))
+                STDOUT.sync = true 
+               end
                exec cmd_line
             end
         end
