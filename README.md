@@ -28,8 +28,9 @@ Or install it yourself as:
     
     include OwaspZap 
 
-    z = Zap.new :target=>'http://xxx.xxx.xxx' #create new Zap instance with default params
-    z = Zap.new :target=>'http://yyy.yyy.yyy', :zap=>"/usr/share/owasp-zap/zap.sh" #if you got my obs package
+    z = Zap.new :target=>'http://xxx.xxx.xxx' # create new Zap instance with default params
+    z = Zap.new :target=>'http://yyy.yyy.yyy', :zap=>"/usr/share/owasp-zap/zap.sh" # if you got my obs package
+    z = Zap.new :output=>'logfile.txt' # it will log the stdout log from Zap Proxy to a file
     z.start # start interactive
     # TODO
     # document it further :) 
