@@ -12,6 +12,7 @@ require_relative "owasp_zap/attack"
 require_relative "owasp_zap/alert"
 require_relative "owasp_zap/auth"
 require_relative "owasp_zap/scanner"
+require_relative "owasp_zap/policy"
 
 module OwaspZap
     class ZapException < Exception;end
@@ -52,6 +53,10 @@ module OwaspZap
                 return false
             end
             response.code == 200
+        end
+
+        def policy
+            Zap::Policy.new(:base=>@base)
         end
 
         def alerts
