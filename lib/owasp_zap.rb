@@ -11,6 +11,7 @@ require_relative "owasp_zap/spider"
 require_relative "owasp_zap/attack"
 require_relative "owasp_zap/alert"
 require_relative "owasp_zap/auth"
+require_relative "owasp_zap/scanner"
 
 module OwaspZap
     class ZapException < Exception;end
@@ -57,6 +58,10 @@ module OwaspZap
             Zap::Alert.new(:base=>@base,:target=>@target)
         end
         
+        def scanner
+            Zap::Scanner.new(:base=>@base)
+        end
+
         #attack
         def ascan
             Zap::Attack.new(:base=>@base,:target=>@target)
