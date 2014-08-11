@@ -35,7 +35,19 @@ Or install it yourself as:
     # TODO
     # document it further :) 
     z.start :daemon=>true # start in daemon mode
+    z.scan # to run active scan
+    z.alerts.view # you can specify one format JSON, XML or HTML.. default JSON.
     z.shutdown # stop the proxy
+
+    # to disable a specific test
+    to_be_disabled = JSON.load(z.policy.all)["policies"].select { |p| p["name"] == "Information gathering" }.first
+ 
+    unless to_be_disabled.nil?
+        z.scanner.disable([to_be_disabled["id"]])
+    end
+
+    # to print the XML report
+    z.xml_report
 
 ## Contributing
 
