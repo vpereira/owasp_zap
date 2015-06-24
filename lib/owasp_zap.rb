@@ -88,7 +88,7 @@ module OwaspZap
             else
                 @zap_bin
             end
-            start_zap = Thread.new do
+            fork do
                # if you passed :output=>"file.txt" to the constructor, then it will send the forked process output
                # to this file (that means, ZAP stdout)
                unless @output == $stdout
@@ -97,7 +97,7 @@ module OwaspZap
                end
                exec cmd_line
             end
-            start_zap.join if params.key? :asynch
+            Process.wait if params.key? :asynch
         end
 
         #shutdown zap
