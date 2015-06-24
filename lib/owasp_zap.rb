@@ -3,7 +3,6 @@ require "rest_client"
 require "addressable/uri"
 require "cgi"
 require "logger"
-require "threads"
 
 require_relative "owasp_zap/version"
 require_relative "owasp_zap/error"
@@ -89,7 +88,7 @@ module OwaspZap
             else
                 @zap_bin
             end
-            fork do
+            start_zap = Thread.new do
                # if you passed :output=>"file.txt" to the constructor, then it will send the forked process output
                # to this file (that means, ZAP stdout)
                unless @output == $stdout
@@ -98,14 +97,7 @@ module OwaspZap
                end
                exec cmd_line
             end
-        end
-
-        # Added in order for execution to stall before code execution continues
-        def start_and_wait(params = {})
-            start_thread = Thread.new do
-                start(params)
-            end
-            start_thread.join
+            start_zap.join if params.key? :asynch
         end
 
         #shutdown zap
