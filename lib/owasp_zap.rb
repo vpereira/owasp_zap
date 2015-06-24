@@ -99,6 +99,14 @@ module OwaspZap
             end
         end
 
+        # Added in order for execution to stall before code execution continues
+        def start_and_wait(params = {})
+            start_thread = Thread.new do
+                start(params)
+            end
+            start_thread.join
+        end
+
         #shutdown zap
         def shutdown
             RestClient::get "#{@base}/JSON/core/action/shutdown/"
