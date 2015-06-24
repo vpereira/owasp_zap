@@ -3,6 +3,7 @@ require "rest_client"
 require "addressable/uri"
 require "cgi"
 require "logger"
+require "threads"
 
 require_relative "owasp_zap/version"
 require_relative "owasp_zap/error"
