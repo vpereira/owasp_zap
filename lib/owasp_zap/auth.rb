@@ -34,7 +34,8 @@ module OwaspZap
         # TODO: offer a way to encode it, giving a hash?
         def import_context(context)
           set_query "{@base}/context/action/importContext/",postData: context
-          RestClient::get "{@base}/context/view/contextList"
+          contexts = RestClient::get "{@base}/context/view/contextList"
+          puts contexts
         end
 
         def set_login_url(args)
