@@ -109,20 +109,11 @@ module OwaspZap
            system(cmd_line)
          end
          start_up = 0
-         until started? do
+         until running? do
            sleep 1
            start_up += 1
            puts "Failed to start ZAP!" if (start_up == 30)
          end
-       end
-
-       def started?
-         begin
-           response_date = RestClient::get "#{@base}"
-         rescue => e
-           return false
-         end
-         true
        end
 
        def set_output
