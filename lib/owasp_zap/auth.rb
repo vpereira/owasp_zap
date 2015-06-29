@@ -39,7 +39,7 @@ module OwaspZap
 
         def contexts
             url = Addressable::URI.parse "{@base}/context/view/contextList"
-            url.query_values = {:zapapiformat=>"JSON"}
+            url.query_values = {:zapapiformat=>"JSON", :url=>"127.0.0.1"}
             c = RestClient::get url.normalize.to_s
             puts c
         end
