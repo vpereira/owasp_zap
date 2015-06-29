@@ -13,6 +13,7 @@ require_relative "owasp_zap/alert"
 require_relative "owasp_zap/auth"
 require_relative "owasp_zap/scanner"
 require_relative "owasp_zap/policy"
+require_relative "owasp_zap/os"
 
 module OwaspZap
     class ZapException < Exception;end
@@ -88,16 +89,48 @@ module OwaspZap
             else
                 @zap_bin
             end
-            fork do
-               # if you passed :output=>"file.txt" to the constructor, then it will send the forked process output
-               # to this file (that means, ZAP stdout)
-               unless @output == $stdout
-                STDOUT.reopen(File.open(@output, 'w+'))
-                STDOUT.sync = true 
-               end
-               exec cmd_line
+            if (OS.java?)
+              start_zap_thread(cmd_line)
+            else
+              fork_zap_process(cmd_line)
             end
         end
+
+       def fork_zap_process(cmd_line)
+         fork do
+           set_output
+           exec cmd_line
+         end
+       end
+
+       def start_zap_thread(cmd_line)
+         @java_thread = Thread.new do
+           set_output
+           system(cmd_line)
+         end
+         until started? do
+           sleep 1
+         end
+       end
+
+       def started?
+         file = File.open(@output, "r")
+         file.each_line do |line|
+           if line.include? 'Initializing Tips and Tricks'
+             return true
+           end
+         end
+         false
+       end
+
+       def set_output
+         # if you passed :output=>"file.txt" to the constructor, then it will send the forked process output
+         # to this file (that means, ZAP stdout)
+         unless @output == $stdout
+           STDOUT.reopen(File.open(@output, 'w+'))
+           STDOUT.sync = true
+         end
+       end
 
         #shutdown zap
         def shutdown
