@@ -34,8 +34,15 @@ module OwaspZap
         # TODO: offer a way to encode it, giving a hash?
         def import_context(context)
           set_query "{@base}/context/action/importContext/",postData: context
-          contexts = RestClient::get "{@base}/context/view/contextList"
-          puts contexts
+          # contexts = RestClient::get "{@base}/context/view/contextList"
+          # puts contexts
+        end
+
+        def contexts
+            url = Addressable::URI.parse "{@base}/context/view/contextList"
+            url.query_values = {:zapapiformat=>"JSON"}
+            c = RestClient::get url.normalize.to_s
+            puts c
         end
 
         def set_login_url(args)
