@@ -31,11 +31,17 @@ module OwaspZap
         # url: url including http:// 
         # post_data: an already encoded string like "email%3Dfoo%2540example.org%26passwd%3Dfoobar" 
         # TODO: offer a way to encode it, giving a hash?
+        def import_context(context)
+          set_query "{@base}/context/action/importContext/",postData: context
+          # contexts = RestClient::get "{@base}/context/view/contextList"
+          # puts contexts
+        end
 
-        def import_context(args)
-          set_query "{@base}/context/action/importContext/",postData: args[:post_data]
-          RestClient::get "{@base}/context/view/contextList"
-          puts contexts
+        def contexts
+            url = Addressable::URI.parse "{@base}/context/view/contextList"
+            url.query_values = {:zapapiformat=>"JSON"}
+            c = RestClient::get url.normalize.to_s
+            puts c
         end
 
         def set_login_url(args)
