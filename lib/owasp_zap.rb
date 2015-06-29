@@ -108,19 +108,21 @@ module OwaspZap
            set_output
            system(cmd_line)
          end
+         start_up = 0
          until started? do
            sleep 1
+           start_up += 1
+           puts "Failed to start ZAP!" if (start_up == 30)
          end
        end
 
        def started?
-         file = File.open(@output, "r")
-         file.each_line do |line|
-           if line.include? 'Initializing Tips and Tricks'
-             return true
-           end
+         begin
+           response_date = RestClient::get "#{@base}"
+         rescue => e
+           return false
          end
-         false
+         true
        end
 
        def set_output
