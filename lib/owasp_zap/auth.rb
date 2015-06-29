@@ -2,6 +2,7 @@ module OwaspZap
     class Auth
         attr_accessor :ctx,:base
         def initialize(params = {})
+            import_context(params[:context_name]) if !params[:context_name].nil?
             @ctx = params[:context] || 1 #default context is the1
             @base = params[:base] || "http://127.0.0.1:8080/JSON"
         end
@@ -31,6 +32,11 @@ module OwaspZap
         # url: url including http:// 
         # post_data: an already encoded string like "email%3Dfoo%2540example.org%26passwd%3Dfoobar" 
         # TODO: offer a way to encode it, giving a hash?
+        def import_context(context)
+          set_query "{@base}/context/action/importContext/",postData: context
+          RestClient::get "{@base}/context/view/contextList"
+        end
+
         def set_login_url(args)
             set_query "#{@base}/auth/action/setLoginUrl/",:postData=>args[:post_data]
         end
