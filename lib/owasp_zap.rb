@@ -33,11 +33,11 @@ module OwaspZap
         def status_for(component)
             case component
             when :ascan
-                Zap::Attack.new(:base=>@base,:target=>@target).status
+              OwaspZap::Attack.new(:base=>@base,:target=>@target).status
             when :spider
-                Zap::Spider.new(:base=>@base,:target=>@target).status
+              OwaspZap::Spider.new(:base=>@base,:target=>@target).status
             when :scan
-                Zap::Scan.new(:base=>@base,:target=>@target).status
+              OwaspZap::Scan.new(:base=>@base,:target=>@target).status
             else
                 {:status=>"unknown component"}.to_json
             end
@@ -57,28 +57,28 @@ module OwaspZap
         end
 
         def policy
-            Zap::Policy.new(:base=>@base)
+          OwaspZap::Policy.new(:base=>@base)
         end
 
         def alerts
-            Zap::Alert.new(:base=>@base,:target=>@target)
+          OwaspZap::Alert.new(:base=>@base,:target=>@target)
         end
         
         def scanner
-            Zap::Scanner.new(:base=>@base)
+          OwaspZap::Scanner.new(:base=>@base)
         end
 
         #attack
         def ascan
-            Zap::Attack.new(:base=>@base,:target=>@target)
+          OwaspZap::Attack.new(:base=>@base,:target=>@target)
         end
 
         def spider
-            Zap::Spider.new(:base=>@base,:target=>@target)
+          OwaspZap::Spider.new(:base=>@base,:target=>@target)
         end
 
         def auth
-            Zap::Auth.new(:base=>@base) 
+          OwaspZap::Auth.new(:base=>@base)
         end
 
         # TODO
