@@ -15,6 +15,12 @@ module OwaspZap
             RestClient::get url.normalize.to_str
         end
 
+        def spider_as_user(context_id, user_id, max_children = 1000)
+            url = Addressable::URI.parse("#{@base}/JSON/spider/action/scanAsUser/")
+            url.query_values = {:zapapiformat=>"JSON",:url=>@target, contextId: context_id, userId: user_id, maxChildren: max_children}
+            RestClient::get url.normalize.to_str
+        end
+
         def stop
             RestClient::get "#{@base}/JSON/spider/action/stop/?zapapiformat=JSON"
         end

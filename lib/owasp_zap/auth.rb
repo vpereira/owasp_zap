@@ -4,6 +4,8 @@ module OwaspZap
         def initialize(params = {})
             @ctx = params[:context] || 1 #default context is the1
             @base = params[:base] || "http://127.0.0.1:8080/JSON"
+            @target = params[:target]
+            @uid = nil
         end
 
         #
@@ -32,16 +34,41 @@ module OwaspZap
         # post_data: an already encoded string like "email%3Dfoo%2540example.org%26passwd%3Dfoobar" 
         # TODO: offer a way to encode it, giving a hash?
         def import_context(context)
-          set_query "{@base}/context/action/importContext/",postData: context
-          # contexts = RestClient::get "{@base}/context/view/contextList"
-          # puts contexts
+          set_query "#{@base}/json/context/action/importContext/", contextFile: context
+          context_name = context.split('.')[0]
+          puts set_query "#{@base}/json/context/view/context", contextName: context_name
+          @ctx = 2
+        end
+
+        def new_context(context_name, set_as_context=true)
+            set_query "#{@base}/json/context/action/newContext/", contextName: context_name
+            @ctx = 2
+        end
+
+        def set_include_in_context(context_name, regrexs)
+            regrexs.each do |regrex|
+                set_query "#{@base}/json/context/action/includeInContext/", contextName: context_name, regrex: regrex
+            end 
+        end
+
+        def set_exclude_from_context(context_name, regrexs)
+            regrexs.each do |regrex|
+                set_query "#{@base}/json/context/action/excludeFromContext/", contextName: context_name, regrex: regrex
+            end 
+        end
+
+        def new_user(name)
+            set_query "#{@base}/json/users/action/newUser/", contextId: @ctx, name: name
+            puts self.users(@ctx)
+            @uid = 1
+        end
+
+        def users(context)
+            set_query "#{@base}/json/users/view/usersList", contextId: context
         end
 
         def contexts
-            url = Addressable::URI.parse "{@base}/context/view/contextList"
-            url.query_values = {:zapapiformat=>"JSON", :url=>"127.0.0.1"}
-            c = RestClient::get url.normalize.to_s
-            puts c
+            set_query "#{@base}/json/context/view/contextList/"
         end
 
         def set_login_url(args)
@@ -64,10 +91,10 @@ module OwaspZap
 
         # addr a string like #{@base}/auth/foo/bar
         # params a hash with custom params that should be added to the query_values
-        def set_query(addr, params)
-            default_params = {:zapapiformat=>"JSON",:url=>args[:url],:contextId=>@ctx}
-            url Addressable::URI.parse addr
-            url.query_values = default_params.merge(params)
+        def set_query(addr, params={})
+            default_params = {:zapapiformat=>"JSON",:url=>@target,:contextId=>@ctx}
+            url = Addressable::URI.parse addr
+            url.query_values = params
             RestClient::get url.normalize.to_str
         end
         def to_url(str)
