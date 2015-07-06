@@ -25,8 +25,17 @@ module OwaspZap
                 ret["status"].to_i
             else
                 100 # it means no running
+          ""  end
+        end
+
+        def full_results(format = 'HTML', scan_id = 0)
+            case format
+                when "JSON"
+                    JSON.parse(RestClient::get("#{@base}/JSON/spider/view/fullResults/?zapapiformat=JSON&scanId=#{scan_id}"))
+                else
+                    RestClient::get("#{@base}/#{format}/spider/view/fullResults/?zapapiformat=#{format}&scanId=#{scan_id}")
             end
-       end
+        end
 
        def running?
             self.status != 100
