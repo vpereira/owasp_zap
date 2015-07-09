@@ -109,5 +109,9 @@ module OwaspZap
         def xml_report
             RestClient::get "#{@base}/OTHER/core/other/xmlreport/"
         end
+        
+        def html_report
+            RestClient::get "#{@base}/OTHER/core/other/htmlreport/"
+        end
    end
 end
