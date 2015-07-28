@@ -34,15 +34,14 @@ module OwaspZap
         # post_data: an already encoded string like "email%3Dfoo%2540example.org%26passwd%3Dfoobar" 
         # TODO: offer a way to encode it, giving a hash?
         def import_context(context)
-          set_query "#{@base}/json/context/action/importContext/", contextFile: context
-          context_name = context.split('.')[0]
-          puts set_query "#{@base}/json/context/view/context", contextName: context_name
-          @ctx = 2
+          response = eval(set_query "#{@base}/json/context/action/importContext/", contextFile: context)
+          #TODO: Parse response from view context call to interpret context id... currently hard-coded
+          @ctx = response[:contextId]
         end
 
         def new_context(context_name, set_as_context=true)
-            set_query "#{@base}/json/context/action/newContext/", contextName: context_name
-            @ctx = 2
+            response = eval(set_query "#{@base}/json/context/action/newContext/", contextName: context_name)
+            @ctx = response[:contextId] if set_as_context
         end
 
         def set_include_in_context(context_name, regrexs)
@@ -58,9 +57,8 @@ module OwaspZap
         end
 
         def new_user(name)
-            set_query "#{@base}/json/users/action/newUser/", contextId: @ctx, name: name
-            puts self.users(@ctx)
-            @uid = 1
+            response = eval(set_query "#{@base}/json/users/action/newUser/", contextId: @ctx, name: name)
+            @uid = response[:userId]
         end
 
         def users(context)
