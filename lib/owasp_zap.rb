@@ -84,7 +84,7 @@ module OwaspZap
         # DOCUMENT the step necessary: install ZAP under $home/ZAP or should be passed to new as :zap parameter
         def start(params = {})
             cmd_line = if params.key? :daemon
-                "#{@zap_bin} -daemon"
+                "#{@zap_bin} -daemon -config api.disablekey=true"
             else
                 @zap_bin
             end
