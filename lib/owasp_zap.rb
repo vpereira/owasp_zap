@@ -85,6 +85,8 @@ module OwaspZap
         def start(params = {})
             cmd_line = if params.key? :daemon
                 "#{@zap_bin} -daemon -config api.disablekey=true"
+            elsif params.key? :api
+                "#{@zap_bin} -config api.disablekey=true"
             else
                 @zap_bin
             end
