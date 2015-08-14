@@ -5,22 +5,21 @@ module OwaspZap
             # handle it
             @base = params[:base]
             @target = params[:target]
+            @api_key = params[:api_key]
         end
 
         def start
-            url = Addressable::URI.parse("#{@base}/JSON/ascan/action/scan/")
-            url.query_values = {:zapapiformat=>"JSON",:url=>@target}
-            RestClient::get url.normalize.to_str
+            set_query "#{@base}/JSON/ascan/action/scan/?apikey=#{@api_key}"
         end
 
         def scan_as_user(context_id, user_id)
-            url = Addressable::URI.parse("#{@base}/JSON/ascan/action/scanAsUser/")
-            url.query_values = {:zapapiformat=>"JSON",:url=>@target, contextId: context_id, userId: user_id}
-            RestClient::get url.normalize.to_str
+            set_query "#{@base}/JSON/ascan/action/scanAsUser/", contextId: context_id, userId: user_id
         end
 
         def status
-            ret = JSON.parse(RestClient::get("#{@base}/JSON/ascan/view/status/?zapapiformat=JSON"))
+            url = Addressable::URI.parse("#{@base}/JSON/ascan/view/status/")
+            url.query_values = {:zapapiformat=>"JSON",:api_key=>@api_key}
+            ret = JSON.parse(RestClient::get url.normalize.to_s)
             if ret.has_key? "status"
                 ret["status"].to_i
             else
@@ -30,6 +29,15 @@ module OwaspZap
 
         def running?
             self.status != 100
+        end
+
+        private
+
+        def set_query(addr, params={})
+            default_params = {:zapapiformat=>"JSON",:url=>@target, :apikey=>@api_key}
+            url = Addressable::URI.parse addr
+            url.query_values = default_params.merge params
+            RestClient::get url.normalize.to_str
         end
 
     end
