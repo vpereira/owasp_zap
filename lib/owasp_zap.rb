@@ -103,6 +103,7 @@ module OwaspZap
         #shutdown zap
         def shutdown
             RestClient::get "#{@base}/JSON/core/action/shutdown/?apikey=#{@api_key}"
+            sleep 1 if running?
         end
 
         #xml report

@@ -2,8 +2,11 @@ module OwaspZap
     class Auth
         attr_accessor :ctx,:base
         def initialize(params = {})
-            @ctx = params[:context] || 1 #default context is the1
-            byebug
+            if params.has_key? "context_name"
+                import_context(params[:context_name])
+            else
+                @ctx = params[:context] || 1 #default context is the1
+            end
             @base = params[:base] || "http://127.0.0.1:8080/JSON"
             @target = params[:target]
             @uid = nil
@@ -35,9 +38,9 @@ module OwaspZap
         # url: url including http:// 
         # post_data: an already encoded string like "email%3Dfoo%2540example.org%26passwd%3Dfoobar" 
         # TODO: offer a way to encode it, giving a hash?
-        def import_context(context)
+        def import_context(context, set_as_context=true)
           response = JSON.parse(set_query "#{@base}/json/context/action/importContext/", contextFile: context)
-          @ctx = response[:contextId]
+          @ctx = response[:contextId] if set_as_context
         end
 
         def new_context(context_name, set_as_context=true)
@@ -91,16 +94,17 @@ module OwaspZap
         # addr a string like #{@base}/auth/foo/bar
         # params a hash with custom params that should be added to the query_values
         def set_query(addr, params={})
-            default_params = {:zapapiformat=>"JSON",:url=>@target,:contextId=>@ctx, :apikey=>@api_key}
+            default_params = {:zapapiformat=>"JSON",:url=>@target,:apikey=>@api_key}
             url = Addressable::URI.parse addr
             url.query_values = default_params.merge params
             RestClient::get url.normalize.to_str
         end
+
         def to_url(str)
             method_str = str.to_s
             method_str.extend OwaspZap::StringExtension # monkey patch just this instance
             method_str.camel_case
-         end
+        end
 
         def to_method(str)
             method_str = str.to_s
