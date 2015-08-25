@@ -43,6 +43,7 @@ module OwaspZap
             end
 
         end
+
         def ok?(json_data)
             json_data.is_a?(Hash) and json_data[0] == "OK"
         end
