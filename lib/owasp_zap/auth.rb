@@ -41,6 +41,7 @@ module OwaspZap
         def import_context(context, set_as_context=true)
           response = JSON.parse(set_query "#{@base}/json/context/action/importContext/", contextFile: context)
           @ctx = response[:contextId] if set_as_context
+          puts response[:contextId]
           return response[:contextId]
         end
 
