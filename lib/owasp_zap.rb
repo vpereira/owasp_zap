@@ -26,7 +26,7 @@ module OwaspZap
             @base = params[:base] || "http://127.0.0.1:8080"
             @target = params[:target]
             @zap_bin = params [:zap] || "#{ENV['HOME']}/ZAP/zap.sh"
-            @api_key = ENV['API_KEY'] || "key" 
+            @api_key = ENV['API_KEY'] || random_token 
             @output = params[:output] || $stdout #default we log everything to the stdout
         end
 
@@ -46,6 +46,11 @@ module OwaspZap
 
         def ok?(json_data)
             json_data.is_a?(Hash) and json_data[0] == "OK"
+        end
+
+        def random_token
+            o = [('a'..'z'), ('A'..'Z')].map { |i| i.to_a }.flatten
+            string = (0...50).map { o[rand(o.length)] }.join
         end
 
         def running?
