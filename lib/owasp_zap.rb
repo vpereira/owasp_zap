@@ -26,24 +26,31 @@ module OwaspZap
             @base = params[:base] || "http://127.0.0.1:8080"
             @target = params[:target]
             @zap_bin = params [:zap] || "#{ENV['HOME']}/ZAP/zap.sh"
+            @api_key = ENV['API_KEY'] || random_token 
             @output = params[:output] || $stdout #default we log everything to the stdout
         end
 
         def status_for(component)
             case component
             when :ascan
-                Zap::Attack.new(:base=>@base,:target=>@target).status
+                Zap::Attack.new(:base=>@base,:target=>@target, :api_key=>@api_key).status
             when :spider
-                Zap::Spider.new(:base=>@base,:target=>@target).status
+                Zap::Spider.new(:base=>@base,:target=>@target, :api_key=>@api_key).status
             when :scan
-                Zap::Scan.new(:base=>@base,:target=>@target).status
+                Zap::Scan.new(:base=>@base,:target=>@target, :api_key=>@api_key).status
             else
                 {:status=>"unknown component"}.to_json
             end
 
         end
+
         def ok?(json_data)
             json_data.is_a?(Hash) and json_data[0] == "OK"
+        end
+
+        def random_token
+            o = [('a'..'z'), ('A'..'Z')].map { |i| i.to_a }.flatten
+            string = (0...50).map { o[rand(o.length)] }.join
         end
 
         def running?
@@ -60,34 +67,34 @@ module OwaspZap
         end
 
         def alerts
-            Zap::Alert.new(:base=>@base,:target=>@target)
+            OwaspZap::Alert.new(:base=>@base,:target=>@target, :api_key=>@api_key)
         end
         
         def scanner
-            Zap::Scanner.new(:base=>@base)
+            OwaspZap::Scanner.new(:base=>@base, :api_key=>@api_key)
         end
 
         #attack
         def ascan
-            Zap::Attack.new(:base=>@base,:target=>@target)
+            OwaspZap::Attack.new(:base=>@base,:target=>@target, :api_key=>@api_key)
         end
 
         def spider
-            Zap::Spider.new(:base=>@base,:target=>@target)
+            OwaspZap::Spider.new(:base=>@base,:target=>@target, :api_key=>@api_key)
         end
 
         def auth
-            Zap::Auth.new(:base=>@base) 
+            OwaspZap::Auth.new(base: @base, target: @target, api_key: @api_key) 
         end
 
         # TODO
         # DOCUMENT the step necessary: install ZAP under $home/ZAP or should be passed to new as :zap parameter
         def start(params = {})
-            cmd_line = if params.key? :daemon
-                "#{@zap_bin} -daemon"
-            else
-                @zap_bin
-            end
+            
+            cmd_line = "#{@zap_bin} -config api.key=#{@api_key}" 
+
+            cmd_line += " -daemon" if params[:daemon]
+
             fork do
                # if you passed :output=>"file.txt" to the constructor, then it will send the forked process output
                # to this file (that means, ZAP stdout)
@@ -101,17 +108,18 @@ module OwaspZap
 
         #shutdown zap
         def shutdown
-            RestClient::get "#{@base}/JSON/core/action/shutdown/"
+            RestClient::get "#{@base}/JSON/core/action/shutdown/?apikey=#{@api_key}"
+            sleep 1 if running?
         end
 
         #xml report
         #maybe it should be refactored to alert. 
         def xml_report
-            RestClient::get "#{@base}/OTHER/core/other/xmlreport/"
+            RestClient::get "#{@base}/OTHER/core/other/xmlreport/?apikey=#{@api_key}"
         end
         
         def html_report
-            RestClient::get "#{@base}/OTHER/core/other/htmlreport/"
+            RestClient::get "#{@base}/OTHER/core/other/htmlreport/?apikey=#{@api_key}"
         end
    end
 end
