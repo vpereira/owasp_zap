@@ -24,8 +24,19 @@ module OwaspZap
             if ret.has_key? "status"
                 ret["status"].to_i
             else
-                100 # it means no running
+                100 # it means not running
             end
+       end
+
+       def set_depth(max_d)
+            #http://localhost:8084/JSON/spider/action/setOptionMaxDepth/?Integer=1
+            url = Addressable::URI.parse("#{@base}/JSON/spider/action/setOptionMaxDepth/")
+            url.query_values = {:integer=>max_d.to_i}
+            RestClient::get url.normalize.to_str
+       end
+
+       def depth
+            JSON.parse(RestClient::get("#{@base}/JSON/spider/view/status/?zapapiformat=JSON"))
        end
 
        def running?
