@@ -84,12 +84,18 @@ module OwaspZap
         # TODO
         # DOCUMENT the step necessary: install ZAP under $home/ZAP or should be passed to new as :zap parameter
         def start(params = {})
+            # default we are disabling api key
+            params = {api_key:false}.merge(params)
             cmd_line = "#{@zap_bin}"
             case
             when params.key?(:daemon)
               cmd_line += " -daemon"
             when params.key?(:api_key)
-              cmd_line += " -config api.key=#{@api_key}"
+              cmd_line += if params[:api_key] == true
+                " -config api.key=#{@api_key}"
+              else
+                " -config api.disablekey=true"
+              end
             end
             fork do
                # if you passed :output=>"file.txt" to the constructor, then it will send the forked process output
