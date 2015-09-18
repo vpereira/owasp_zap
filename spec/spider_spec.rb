@@ -27,7 +27,7 @@ describe OwaspZap::Spider do
     end
 
     it "should get depth" do
-      stub_request(:get, "http://127.0.0.1:8080/JSON/spider/view/status/?zapapiformat=JSON").
+      stub_request(:get, "http://127.0.0.1:8080/JSON/spider/view/optionMaxDepth/?zapapiformat=JSON").
         to_return(:status => 200, :body => "{\"MaxDepth\":\"2\"}", :headers => {})
       @spider.depth.wont_be_nil
     end
