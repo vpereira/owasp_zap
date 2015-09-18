@@ -36,7 +36,7 @@ module OwaspZap
        end
 
        def depth
-            JSON.parse(RestClient::get("#{@base}/JSON/spider/view/status/?zapapiformat=JSON"))
+            JSON.parse(RestClient::get("#{@base}/JSON/spider/view/optionMaxDepth/?zapapiformat=JSON"))
        end
 
        def running?
