@@ -97,6 +97,12 @@ module OwaspZap
                 " -config api.disablekey=true"
               end
             end
+            if params.key?(:host)
+                cmd_line += " -host #{params[:host]}"
+            end
+            if params.key?(:port)
+                cmd_line += " -port #{params[:port]}"
+            end
             fork do
                # if you passed :output=>"file.txt" to the constructor, then it will send the forked process output
                # to this file (that means, ZAP stdout)
@@ -104,7 +110,10 @@ module OwaspZap
                 STDOUT.reopen(File.open(@output, 'w+'))
                 STDOUT.sync = true
                end
+               print "Running the following command: #{cmd_line} \n"
+
                exec cmd_line
+
             end
         end
 
