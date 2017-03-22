@@ -115,6 +115,7 @@ module OwaspZap
                exec cmd_line
 
             end
+            Process.wait if params.key? :asynch
         end
 
         #shutdown zap
